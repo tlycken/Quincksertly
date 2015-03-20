@@ -1,0 +1,11 @@
+.typeahead-options {
+    padding: 10px;
+    background: #ccc;
+    border-radius: 10px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.typeahead-options > ul > li {
+    list-style: none;
+}
