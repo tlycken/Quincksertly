@@ -429,7 +429,33 @@
                     entry.append("  --  ");
                 }
             }
-            $('.console').append(entry);
+
+            var matches = [],
+                creates = [],
+                merges = [];
+
+            // Loop through nodes and either match or create them, depending on id
+            for (var idx in chain) {
+                if (_.isObject(chain[idx])) {
+                    var node = chain[idx];
+                    node.varname = 'n' + idx;
+                    if (node.id && node.id !== -1) {
+                        node.where = 'id(' + node.varname + ') = ' + node.id;
+                    } else if (node.id && node.id == -1) {
+                        node.create = '(' + node.varname;
+                        if (_.any(node.labels)) {
+                            node.create += ':' + node.labels.join()
+                        }
+                        node.create += ' { name: ' + node.name + '})';
+                    }
+                } else if (_.isString(chain[idx])) {
+                    var rel = chain[idx];
+                }
+            }
+
+
+
+            $('.console').append(entry).append($('<div>').append($('<pre>').append(query)));
         },
 
         render: function() {
