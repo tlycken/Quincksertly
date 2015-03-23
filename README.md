@@ -9,4 +9,16 @@ Quickly insert chains of nodes and relations into a Neo4j database.
 3. Navigate your shell of choice to the project root, and run `./start.sh`
 4. Point your browser to `localhost:7400` to insert stuff, and `localhost:7474` to show it.
 
-## Thomas: `git checkout demo` before you start
+## Data requirements
+
+This project relies on every node having a `name` property, and no error handling is performed for nodes that don't;
+the UI will just crash. You can check your db with the following Cypher query:
+
+    MATCH (n) WHERE NOT HAS(n.name) RETURN n
+
+If there are any results, you can either update the nodes and add a `name`, update the code to use some other
+property which all your nodes have, or execute
+
+    MATCH (n) WHERE NOT HAS(n.name) DELETE n
+
+to delete all nodes without a `name`.
