@@ -221,7 +221,7 @@
         onRelationCreated: function(r) {
             var newRel = { name: r };
             this.props.onRelationCreated(newRel);
-            onRelationSelected(newRel);
+            this.onRelationSelected(newRel);
         },
         render: function () {
             return  <div>
@@ -287,6 +287,7 @@
                                    types={this.props.types}
                                    labels={this.props.labels}
                                    createNode={this.props.createNode}
+                                   createRelation={this.props.createRelation}
                                    lvl={parseInt(this.props.lvl.substr(0,1))+1}
                                    displayName="till"
 
@@ -350,6 +351,7 @@
                                     types={this.props.types}
                                     labels={this.props.labels}
                                     createNode={this.createNode}
+                                    createRelation={this.createRelation}
                                     onRelationCreated={this.createRelation}
                                     lvl={this.props.lvl + '-' + (this.props.lvl+1)}
                                     startNode={this.state.selectedNode}
@@ -430,32 +432,14 @@
                 }
             }
 
-            var matches = [],
-                creates = [],
-                merges = [];
-
-            // Loop through nodes and either match or create them, depending on id
-            for (var idx in chain) {
-                if (_.isObject(chain[idx])) {
-                    var node = chain[idx];
-                    node.varname = 'n' + idx;
-                    if (node.id && node.id !== -1) {
-                        node.where = 'id(' + node.varname + ') = ' + node.id;
-                    } else if (node.id && node.id == -1) {
-                        node.create = '(' + node.varname;
-                        if (_.any(node.labels)) {
-                            node.create += ':' + node.labels.join()
-                        }
-                        node.create += ' { name: ' + node.name + '})';
-                    }
-                } else if (_.isString(chain[idx])) {
-                    var rel = chain[idx];
-                }
-            }
-
-
-
-            $('.console').append(entry).append($('<div>').append($('<pre>').append(query)));
+            var query = api.buildQuery(chain);
+            console.log('Submitting query:', query);
+            api.submit(query).then(function() {
+                $('.console').append('Saved successfully!');
+                React.render(<Chain />, document.getElementById('content'));
+            }).fail(function(error) {
+                $('.console').append('<span class="text-danger">An error occurred; check log for details</span>');
+            });
         },
 
         render: function() {
