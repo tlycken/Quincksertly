@@ -435,7 +435,7 @@
             var query = api.buildQuery(chain);
             console.log('Submitting query:', query);
             api.submit(query).then(function() {
-                $('.console').append('Saved successfully!');
+                $('.console').append('Saved successfully! Reload to start a new chain.');
                 React.render(<Chain />, document.getElementById('content'));
             }).fail(function(error) {
                 $('.console').append('<span class="text-danger">An error occurred; check log for details</span>');
