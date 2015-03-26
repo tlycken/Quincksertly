@@ -5,4 +5,4 @@ var path = require('path'),
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.listen(7400, function() { console.log('node4j UI listening on http://localhost:7400'); });
+app.listen(7400, function() { console.log('Quincksertly server listening on http://localhost:7400'); });
