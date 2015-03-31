@@ -123,10 +123,10 @@
         },
         onNodeSelected: function (node) {
             this.setState({ node: node }, function() {
-                if (this.props.onNodeSelected) {
+                if (_.any(node.labels) && this.props.onNodeSelected) {
                     this.props.onNodeSelected(node);
                 }
-            }.bind(this));
+            });
         },
         onNodeCreated: function (name) {
             var newNode = {
@@ -143,6 +143,9 @@
         onLabelsSelected: function(labels) {
             if (this.state.node) {
                 this.state.node.labels = labels;
+                if (this.props.onNodeSelected) {
+                    this.props.onNodeSelected(this.state.node);
+                }
             }
         },
         render: function () {
