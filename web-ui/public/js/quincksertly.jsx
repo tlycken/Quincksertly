@@ -58,6 +58,7 @@
         },
         createNew: function() {
             this.props.onCreated(this.state.input);
+            this.setState({ selected: true });
         },
         render: function() {
             var name = this.props.name + '-' + this.props.lvl;
